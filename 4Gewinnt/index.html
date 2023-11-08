@@ -4,62 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vier Gewinnt</title>
-<link rel="stylesheet" href="style.css"> <!-- Verweis auf Ihre CSS-Datei -->
-<style>
-  /* Alternativ können Sie den CSS-Code auch direkt hier einfügen, falls Sie keine separate CSS-Datei verwenden möchten. */
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div id="board"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const board = document.getElementById('board');
-  let currentPlayer = 'red';
-
-  function createBoard() {
-    for (let row = 0; row < 6; row++) {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'row';
-      for (let col = 0; col < 7; col++) {
-        const cell = elt('div', {class: 'cell', 'data-col': col, 'data-row': row});
-        cell.addEventListener('click', placePiece);
-        rowDiv.appendChild(cell);
-      }
-      board.appendChild(rowDiv);
-    }
-  }
-
-  function placePiece(e) {
-    const col = e.target.getAttribute('data-col');
-    // Find the first empty cell in the column (from bottom to top)
-    for (let row = 5; row >= 0; row--) {
-      const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
-      if (!cell.hasChildNodes()) {
-        const piece = elt('div', {class: currentPlayer});
-        cell.appendChild(piece);
-        currentPlayer = (currentPlayer === 'red') ? 'blue' : 'red'; // Swap players
-        break;
-      }
-    }
-  }
-
-  createBoard();
-});
-
-function elt(type, attrs, ...children) {
-  let node = document.createElement(type);
-  Object.keys(attrs).forEach(key => {
-    node.setAttribute(key, attrs[key]);
-  });
-  for (let child of children) {
-    if (typeof child != "string") node.appendChild(child);
-    else node.appendChild(document.createTextNode(child));
-  }
-  return node;
-}
-</script>
-
+ <div class="board" id="board"></div>
+ <script src="spiel.js"></script>
 </body>
 </html>
