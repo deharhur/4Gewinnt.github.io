@@ -1,82 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spielfeld</title>
+<title>Startseite</title>
 <style>
-  #boardContainer {
-    display: grid;
-    grid-template-columns: repeat(7, 50px);
-    grid-gap: 5px;
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+    color: #333;
   }
 
-  .cell {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  h1 {
+    color: #5d647b;
+    text-align: center;
+    font-size: 2.5em;
   }
 
-  .red {
-    background-color: red;
+  nav ul {
+    list-style: none;
+    padding: 0;
   }
 
-  .blue {
-    background-color: blue;
+  nav ul li {
+    margin: 20px 0;
+    text-align: center;
   }
 
-  .empty {
-    background-color: white;
+  nav a {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #5d647b;
+    padding: 15px 25px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  nav a:hover {
+    background-color: #434a61;
+  }
+
+  @media (min-width: 600px) {
+    nav ul {
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
   }
 </style>
 </head>
 <body>
-
-<div id="boardContainer"></div>
-
-<script>
-// Initialisierung des Spielbretts
-let state = Array(6).fill('').map(() => Array(7).fill(''));
-
-// Funktion zum Anzeigen des Spielbretts im DOM
-function showBoard(board) {
-  const boardContainer = document.getElementById('boardContainer');
-  boardContainer.innerHTML = '';  // Bereinigt das aktuelle Board
-
-  board.forEach((row, rowIndex) => {
-    const rowDiv = document.createElement('div');
-    rowDiv.className = 'row';
-    row.forEach((cell, colIndex) => {
-      const cellDiv = document.createElement('div');
-      cellDiv.textContent = cell;  // Fügt den Spielstein hinzu ('', 'r' oder 'b')
-      cellDiv.className = 'cell ' + (cell === 'r' ? 'red' : cell === 'b' ? 'blue' : 'empty');
-      rowDiv.appendChild(cellDiv);
-    });
-    boardContainer.appendChild(rowDiv);
-  });
-}
-
-// Funktion, um das Spielbrett jede Sekunde zu aktualisieren
-function updateBoard() {
-  let rowIndex = Math.floor(Math.random() * 6);
-  let colIndex = Math.floor(Math.random() * 7);
-  let value = Math.random() < 0.5 ? 'r' : 'b'; // Wählt zufällig 'r' oder 'b'
-  
-  // Löscht oder belegt das Feld zufällig
-  state[rowIndex][colIndex] = Math.random() < 0.33 ? '' : value;
-
-  showBoard(state); // Aktualisiert die Darstellung
-}
-
-// Initialer Aufruf der showBoard Funktion
-showBoard(state);
-
-// Timer, der updateBoard jede Sekunde aufruft
-setInterval(updateBoard, 1000);
-</script>
-
+<h1>Willkommen auf meiner Website</h1>
+<nav>
+  <ul>
+    <li><a href="./4Gewinnt/index.html">Vier Gewinnt Spiel</a></li>
+    <li><a href="./Model-View/index.html">Model-View Seite</a></li>
+  </ul>
+</nav>
 </body>
 </html>

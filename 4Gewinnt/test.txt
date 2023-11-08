@@ -1,34 +1,29 @@
+document.addEventListener('DOMContentLoaded', showBoard);
+
 function showBoard() {
-  const boardElement = document.getElementById('board');
-  boardElement.innerHTML = ''; // Reset das Board
+  const board = document.getElementById('board');
+  board.innerHTML = '';
   let currentPlayer = 'red';
 
-  // Zeichne das Board
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 7; col++) {
       const cell = elt('div', {class: 'cell', 'data-col': col, 'data-row': row});
-      cell.addEventListener('click', () => placePiece(col, cell));
-      boardElement.appendChild(cell);
+      cell.addEventListener('click', () => placePiece(col));
+      board.appendChild(cell);
     }
   }
 
-  function placePiece(col, clickedCell) {
+  function placePiece(col) {
     for (let row = 5; row >= 0; row--) {
       const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
-      if (!cell.querySelector('.piece')) {
+      if (!cell.hasChildNodes()) {
         const piece = elt('div', {class: `piece ${currentPlayer}`});
         cell.appendChild(piece);
-        board[row][col] = currentPlayer;
-        
-        if (checkForWinner(row, col)) {
-          setTimeout(() => {
-            alert(`Spieler ${currentPlayer} hat gewonnen!`);
-            createResetButton();
-          }, 10); // Verzögerung, damit die letzte Münze gezeichnet wird, bevor das Alert erscheint
+        if (checkForWinner(row, col, currentPlayer)) {
+          createResetButton();
           return;
         }
-        
-        currentPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+        currentPlayer = (currentPlayer === 'red') ? 'blue' : 'red';
         break;
       }
     }
@@ -78,14 +73,12 @@ function showBoard() {
     document.body.appendChild(resetButton);
   }
 }
-
-// Element-Erstellungs-Hilfsfunktion
 function elt(type, attrs, ...children) {
   const node = document.createElement(type);
-  for (const attr of Object.keys(attrs)) {
+  for (let attr of Object.keys(attrs)) {
     node.setAttribute(attr, attrs[attr]);
   }
-  for (const child of children) {
+  for (let child of children) {
     if (typeof child === 'string') {
       node.appendChild(document.createTextNode(child));
     } else {
@@ -95,15 +88,15 @@ function elt(type, attrs, ...children) {
   return node;
 }
 
-// Initialisiere das Spielbrett als 2D-Array
-function initializeBoard() {
-  for (let i = 0; i < 6; i++) {
-    board[i] = new Array(7).fill(null);
+function createResetButton() {
+  let resetButton = document.getElementById('resetButton');
+  if (!resetButton) {
+    resetButton = elt('li', {}, elt('a', {id: 'resetButton', href: '#'}, 'Spiel zurücksetzen'));
+    resetButton.querySelector('a').addEventListener('click', (e) => {
+      e.preventDefault();
+      showBoard();
+      document.getElementById('resetButton').remove();
+    });
+    document.getElementById('nav-items').appendChild(resetButton);
   }
 }
-
-// Spielinitialisierung beim Laden der Seite
-document.addEventListener('DOMContentLoaded', () => {
-  initializeBoard();
-  showBoard();
-});
