@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spielfeld</title>
+<style>
+  #boardContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 50px);
+    grid-gap: 5px;
+  }
 
+  .cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .red {
+    background-color: red;
+  }
+
+  .blue {
+    background-color: blue;
+  }
+
+  .empty {
+    background-color: white;
+  }
+</style>
+</head>
+<body>
+
+<div id="boardContainer"></div>
+
+<script>
+// Initialisierung des Spielbretts
+let state = Array(6).fill('').map(() => Array(7).fill(''));
+
+// Funktion zum Anzeigen des Spielbretts im DOM
+function showBoard(board) {
+  const boardContainer = document.getElementById('boardContainer');
+  boardContainer.innerHTML = '';  // Bereinigt das aktuelle Board
+
+  board.forEach((row, rowIndex) => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'row';
+    row.forEach((cell, colIndex) => {
+      const cellDiv = document.createElement('div');
+      cellDiv.textContent = cell;  // Fügt den Spielstein hinzu ('', 'r' oder 'b')
+      cellDiv.className = 'cell ' + (cell === 'r' ? 'red' : cell === 'b' ? 'blue' : 'empty');
+      rowDiv.appendChild(cellDiv);
+    });
+    boardContainer.appendChild(rowDiv);
+  });
+}
+
+// Funktion, um das Spielbrett jede Sekunde zu aktualisieren
+function updateBoard() {
+  let rowIndex = Math.floor(Math.random() * 6);
+  let colIndex = Math.floor(Math.random() * 7);
+  let value = Math.random() < 0.5 ? 'r' : 'b'; // Wählt zufällig 'r' oder 'b'
+  
+  // Löscht oder belegt das Feld zufällig
+  state[rowIndex][colIndex] = Math.random() < 0.33 ? '' : value;
+
+  showBoard(state); // Aktualisiert die Darstellung
+}
+
+// Initialer Aufruf der showBoard Funktion
+showBoard(state);
+
+// Timer, der updateBoard jede Sekunde aufruft
+setInterval(updateBoard, 1000);
+</script>
+
+</body>
+</html>
