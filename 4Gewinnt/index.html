@@ -13,7 +13,17 @@
     <!-- Weitere Menüpunkte hier -->
   </ul>
 </nav>
- <div id="board"></div>
- <script src="spiel.js"></script>
+
+<div id="board"></div>
+
+<!-- Ensure this div is immediately after the #board -->
+<div class="game-controls">
+    <button id="reset-game">Reset Game</button>
+    <button id="save-game">Save Game</button>
+    <button id="load-game">Load Game</button>
+    <button id="undo-move">Undo Move</button>
+</div>
+
+<script src="spiel.js"></script>
 </body>
 </html>
